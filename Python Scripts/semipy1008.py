@@ -11,6 +11,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from pandas.plotting import scatter_matrix
 import pandas as pd
 import mglearn
+import numpy as np
 iris_dataset = load_iris()
 #print("Keys of iris_dataset: \n{}".format(iris_dataset.keys()))#データセットの要素書き出し
 #print(iris_dataset['DESCR'][:193] + "\n...")#データセットの説明をする
@@ -29,3 +30,12 @@ knn = KNeighborsClassifier(n_neighbors=1)
 knn.fit(X_train, y_train)
 #以下、なんかoutに書いてあったけどよくわからんやつ
 #KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski', metric_params=None, n_jobs=1, n_neighbors=1, p=2, weights='uniform')
+#以下、新しいデータに対しての予測
+X_new = np.array([[5,2.9, 1, 0.2]])#新しいアイリスの花弁、がくの長さ幅データ
+prediction = knn.predict(X_new)
+#predictionが0となるので種類はわかるが、念のため種名を表示する。
+#print("predicted target name: {}".format(iris_dataset['target_names'][prediction]))
+#以下、モデルの評価（テストデータを使って、どのくらい正解できるか割合を評価する)
+y_pred = knn.predict(X_test)
+score = np.mean(y_pred == y_test)
+
